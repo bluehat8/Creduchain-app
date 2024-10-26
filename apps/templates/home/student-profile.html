@@ -1,0 +1,163 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Student Profile {% endblock title %}
+
+{% block content %}
+
+<div class="header pb-6 d-flex align-items-center" 
+     style="min-height: 300px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+
+        <div class="mt-4">
+            <a href="/emit-credentials.html" class="btn btn-secondary">
+              <i class="ni ni-bold-left"></i> Back
+            </a>
+        </div>
+        <p class="text-white mt-0 mb-5 mt-2">This is John Doe's profile page. Here you can view the details and manage the information.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card card-profile">
+        <div class="card-header text-center">
+          <!-- <h3 class="mb-0">Profile Overview</h3> -->
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card-profile-image">
+              <a href="#">
+                <img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle" style="width: 150px; height: 150px;">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="h3">John Doe</h5>
+          <div class="h5 font-weight-300">johndoe@example.com</div>
+          <div class="h5 mt-4">
+            <i class="ni business_briefcase-24 mr-2"></i>Software Engineer
+          </div>
+          <div>
+            <i class="ni education_hat mr-2"></i>ABC University
+          </div>
+          <div class="text-center mt-4">
+            <a href="#!" class="btn btn-sm btn-primary">Edit profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">Profile Details</h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <h6 class="heading-small text-muted mb-4">Student Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-full-name">Full Name</label>
+                    <input type="text" id="input-full-name" class="form-control" placeholder="Full Name" value="John Doe" readonly>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Email Address</label>
+                    <input type="email" id="input-email" class="form-control" placeholder="Email" value="johndoe@example.com" readonly>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-occupation">Occupation</label>
+                    <input type="text" id="input-occupation" class="form-control" placeholder="Occupation" value="Software Engineer" readonly>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-institution">Institution</label>
+                    <input type="text" id="input-institution" class="form-control" placeholder="Institution" value="ABC University" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <!-- About Me -->
+            <h6 class="heading-small text-muted mb-4">About Me</h6>
+            <div class="pl-lg-4">
+              <div class="form-group">
+                <label class="form-control-label">Biography</label>
+                <textarea rows="4" class="form-control" placeholder="A few words about you ..." readonly>A software engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success.</textarea>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <!-- Credentials -->
+            <h6 class="heading-small text-muted mb-4">Credentials</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-12">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <span>Certificate in Software Engineering - ABC University </span>
+                      <button type="button" class="btn btn-link" onclick="toggleHash('hash1')">
+                        <i class="ni ni-eye"></i>
+                      </button>
+                      <span id="hash1" style="display:none;">Hash: ABC12345HASH</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Diploma in Web Development - XYZ Institute </span>
+                      <button type="button" class="btn btn-link" onclick="toggleHash('hash2')">
+                        <i class="ni ni-eye"></i>
+                      </button>
+                      <span id="hash2" style="display:none;">Hash: XYZ67890HASH</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Certified JavaScript Developer</span>
+                      <button type="button" class="btn btn-link" onclick="toggleHash('hash3')">
+                        <i class="ni ni-eye"></i>
+                      </button>
+                      <span id="hash3" style="display:none;">Hash: JS12345HASH</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Agile Project Management Certification</span>
+                      <button type="button" class="btn btn-link" onclick="toggleHash('hash4')">
+                        <i class="ni ni-eye"></i>
+                      </button>
+                      <span id="hash4" style="display:none;">Hash: AGILE67890HASH</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "includes/footer.html" %}
+</div>
+
+<script>
+function toggleHash(hashId) {
+    var hashElement = document.getElementById(hashId);
+    if (hashElement.style.display === "none") {
+        hashElement.style.display = "inline"; // Show hash
+    } else {
+        hashElement.style.display = "none"; // Hide hash
+    }
+}
+</script>
+
+{% endblock content %}
