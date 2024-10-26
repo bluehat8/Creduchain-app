@@ -31,23 +31,30 @@
     {% include "includes/navigation-fullscreen.html" %}
 
     <!-- Header -->
-    <div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="header bg-gradient-dark py-7 py-lg-8">
       <div class="container">
-        <div class="header-body text-center mb-7">
-          <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">
+        <div class="header-body  mb-7">
+          <div class="row justify-content-center align-items-center" style="height: 100%;">
+            <!-- Columna para el texto inicial -->
+            <div class="col-lg-5 col-md-6 text-white">
+              <h1>
                 <a target="_blank" class="text-white"
                    href="https://appseed.us/admin-dashboards/django-dashboard-argon">Creduchain</a>
               </h1>
               <p class="text-lead text-light">
                 A decentralized network for fast, secure credential verification.
-                Coded by <a target="_blank" class="text-white" href="https://appseed.us">SOFIA TEAM</a>.  
+                Coded by <a target="_blank" class="text-white" href="https://sofia-landing-page.vercel.app/">SOFIA TEAM</a>.  
               </p>
+            </div>
+      
+            <!-- Columna para la tarjeta de inicio de sesión -->
+            <div class="col-lg-5 col-md-6">
+              {% block login_card %}{% endblock login_card %}
             </div>
           </div>
         </div>
       </div>
+      
       <div class="separator separator-bottom separator-skew zindex-100">
         <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
