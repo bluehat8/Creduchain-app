@@ -13,11 +13,6 @@ Open-source **[Django Template](https://www.creative-tim.com/templates/django)**
 - Session-Based Authentication, Forms validation
 - Deployment scripts: Docker, Gunicorn / Nginx
 
-<br />
-
-![Argon Dashboard Django - Admin Dashboard coded in Django.](https://github.com/creativetimofficial/argon-dashboard-django/blob/master/media/argon-dashboard-django-screen.png)
-
-<br />
 
 ## Table of Contents
 
