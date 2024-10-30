@@ -7,7 +7,7 @@
 ```bash
 $ # Get the code
 $ git clone https://github.com/creativetimofficial/argon-dashboard-django.git
-$ cd argon-dashboard-django
+$ cd Creduchain APP
 $
 $ # Virtualenv modules installation (Unix based systems)
 $ virtualenv env
