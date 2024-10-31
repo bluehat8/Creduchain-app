@@ -12,9 +12,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Smart contract details
-    const contractABI = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"credentialHash","type":"bytes32"},{"indexed":true,"internalType":"address","name":"issuer","type":"address"},{"indexed":false,"internalType":"uint256","name":"issuedAt","type":"uint256"}],"name":"CredentialIssued","type":"event"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"credentials","outputs":[{"internalType":"bytes32","name":"credentialHash","type":"bytes32"},{"internalType":"address","name":"issuer","type":"address"},{"internalType":"uint256","name":"issuedAt","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"_credentialHash","type":"bytes32"}],"name":"issueCredential","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"_credentialHash","type":"bytes32"}],"name":"verifyCredential","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"}];
-    const contractAddress = '0x305d2f4172325e970C61206fD58323C93900670e';
+    const contractABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"issuer","type":"address"}],"name":"AuthorizedIssuerAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"issuer","type":"address"}],"name":"AuthorizedIssuerRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"credentialHash","type":"bytes32"},{"indexed":false,"internalType":"string","name":"ipfsHash","type":"string"},{"indexed":true,"internalType":"address","name":"issuer","type":"address"},{"indexed":false,"internalType":"uint256","name":"issuedAt","type":"uint256"}],"name":"CredentialIssued","type":"event"},{"inputs":[{"internalType":"address","name":"_issuer","type":"address"}],"name":"addAuthorizedIssuer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"authorizedIssuers","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"credentials","outputs":[{"internalType":"bytes32","name":"credentialHash","type":"bytes32"},{"internalType":"string","name":"ipfsHash","type":"string"},{"internalType":"address","name":"issuer","type":"address"},{"internalType":"uint256","name":"issuedAt","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"_credentialHash","type":"bytes32"},{"internalType":"string","name":"_ipfsHash","type":"string"}],"name":"issueCredential","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_issuer","type":"address"}],"name":"revokeAuthorizedIssuer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"_credentialHash","type":"bytes32"}],"name":"verifyCredential","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"_credentialHash","type":"bytes32"}],"name":"verifyCredentialIpfs","outputs":[{"internalType":"bool","name":"","type":"bool"},{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}];
+    const contractAddress = '0xDEe743d626D8fed6A48969c1EA61f3A815bcA6f6';
     const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+
+    async function uploadToPinata(credentialData, issuerAddress) {
+        const response = await fetch('/upload_to_pinata/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({ credential: credentialData, issuerAddress })
+        });
+    
+        const data = await response.json();
+        if (data.status !== 'success') throw new Error('Failed to upload to Pinata');
+        
+        return data.ipfs_hash;
+    }
 
     // Handle form submission
     form.addEventListener('submit', async (event) => {
@@ -26,7 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const account = await getAccountAddress();
-            const receipt = await issueCredential(contract, credentialHash, account);
+            const ipfsHash = await uploadToPinata(formData.credential, account);
+            //const bytes32Hash = web3.utils.sha3(JSON.stringify(ipfsHash));
+
+            const receipt = await issueCredential(contract, credentialHash, ipfsHash.IpfsHash, account);
             await saveCredentialToDB(formData, receipt.transactionHash, credentialHash);
             alert('Credential issued successfully!');
         } catch (error) {
@@ -64,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
             program,
             graduationDate,
             credentialType,
+
         };
     }
 
@@ -72,8 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return accounts[0];
     }
 
-    async function issueCredential(contract, credentialHash, account) {
-        return contract.methods.issueCredential(credentialHash).send({ from: account });
+    async function issueCredential(contract, credentialHash, ipfs_hash, account) {
+        return contract.methods.issueCredential(credentialHash, ipfs_hash).send({ from: account });
     }
 
     async function saveCredentialToDB(credentialData, transactionHash, credentialHash) {
