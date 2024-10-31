@@ -3,7 +3,8 @@ pragma solidity ^0.8.0;
 
 contract CredentialRegistry {
     struct Credential {
-        bytes32 credentialHash;
+        bytes32 credentialHash; // Hash de la credencial
+        string ipfsHash;        // Hash de IPFS
         address issuer;
         uint256 issuedAt;
     }
@@ -11,7 +12,7 @@ contract CredentialRegistry {
     mapping(bytes32 => Credential) public credentials;
     mapping(address => bool) public authorizedIssuers;
 
-    event CredentialIssued(bytes32 indexed credentialHash, address indexed issuer, uint256 issuedAt);
+    event CredentialIssued(bytes32 indexed credentialHash, string ipfsHash, address indexed issuer, uint256 issuedAt);
     event AuthorizedIssuerAdded(address indexed issuer);
     event AuthorizedIssuerRemoved(address indexed issuer);
 
@@ -42,19 +43,26 @@ contract CredentialRegistry {
     }
 
     // Emitir credencial almacenando su hash en la blockchain
-    function issueCredential(bytes32 _credentialHash) public onlyAuthorizedIssuer {
+    function issueCredential(bytes32 _credentialHash, string memory _ipfsHash) public onlyAuthorizedIssuer {
         require(credentials[_credentialHash].issuer == address(0), "Credential already exists.");
 
         credentials[_credentialHash] = Credential({
             credentialHash: _credentialHash,
+            ipfsHash: _ipfsHash,
             issuer: msg.sender,
-            issuedAt: block.timestamp // Se va considerar usar block.number
+            issuedAt: block.timestamp
         });
 
-        emit CredentialIssued(_credentialHash, msg.sender, block.timestamp);
+        emit CredentialIssued(_credentialHash, _ipfsHash, msg.sender, block.timestamp);
     }
 
     function verifyCredential(bytes32 _credentialHash) public view returns (bool) {
         return credentials[_credentialHash].issuer != address(0);
+    }
+
+    function verifyCredentialIpfs(bytes32 _credentialHash) public view returns (bool, string memory) {
+        Credential memory cred = credentials[_credentialHash];
+        bool exists = cred.issuer != address(0);
+        return (exists, exists ? cred.ipfsHash : "");
     }
 }
