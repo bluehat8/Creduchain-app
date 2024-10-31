@@ -17,9 +17,9 @@
       </form>
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center  ml-md-auto ">
-        <li class="nav-item d-xl-none">
+        <li class="nav-item d-xl-none" id="toggle-sidebar">
           <!-- Sidenav toggler -->
-          <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
+          <div data-toggle="tooltip" title="Toggle Sidenav" class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
             <div class="sidenav-toggler-inner">
               <i class="sidenav-toggler-line"></i>
               <i class="sidenav-toggler-line"></i>
@@ -27,15 +27,19 @@
             </div>
           </div>
         </li>
-        <li class="nav-item d-sm-none">
-          <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
+
+        <li class="nav-item d-sm-none" id="open-search">
+          <a class="nav-link" href="#" data-action="search-show" data-toggle="tooltip" title="Open Search" data-target="#navbar-search-main">
             <i class="ni ni-zoom-split-in"></i>
           </a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        <li class="nav-item dropdown" id="notification-dropdown">
+          <!-- Notifications item -->
+          <a class="nav-link" id="notif-btn" href="#" role="button" data-toggle="dropdown" title="Notifications" aria-haspopup="true" aria-expanded="false">
             <i class="ni ni-bell-55"></i>
           </a>
+
           <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
             <!-- Dropdown header -->
             <div class="px-3 py-3">
@@ -143,8 +147,9 @@
             <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
           </div>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        <li class="nav-item dropdown" id="more-actions-dropdown">
+          <a class="nav-link" id="more-actions-btn"  href="#" role="button" data-toggle="dropdown" title="More Actions" aria-haspopup="true" aria-expanded="false">
             <i class="ni ni-ungroup"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
@@ -191,9 +196,9 @@
       </ul>
       <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
 
-        <li class="nav-item">
+        <li class="nav-item" id="wallet-btn">
           
-          <button id="connect-wallet" class="btn btn-sm btn-dark">
+          <button id="connect-wallet" class="btn btn-sm btn-dark" data-toggle="tooltip" title="Connect Wallet">
 
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
               <g fill="none">
@@ -214,8 +219,8 @@
             Conectar Wallet</button>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown" id="profile-dropdown">
+          <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="User Actions">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
                 <img alt="Image placeholder" src="/static/assets/img/theme/team-4.jpg">
@@ -254,4 +259,9 @@
 
 {% block javascripts %}
   <script src="/static/assets/js/components/wallet/metamask.js"></script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 {% endblock javascripts %}
