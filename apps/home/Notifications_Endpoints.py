@@ -2,6 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Notification
 from django.contrib.auth.decorators import login_required
+from rest_framework import status, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from .serializers import NotificationSerializer
+
 
 @login_required
 def get_notifications(request):
@@ -33,3 +38,28 @@ def mark_as_read(request, notification_id):
     notification.save()
     return JsonResponse({"status": "success"})
 
+
+# Endpoint para crear una nueva notificación de emisión o verificación de credenciales
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def create_notification(request):
+    """
+    Crea una nueva notificación.
+    Se puede especificar si es una notificación de 'emisión' o 'verificación' de credenciales
+    a través del campo 'tipo' que se envía en el cuerpo de la solicitud.
+    """
+    data = request.data
+
+    # Validar el campo 'tipo' para asegurarse de que sea una emisión o verificación
+    tipo = data.get('tipo')
+    if tipo not in [Notification.EMISION, Notification.VERIFICACION]:
+        return Response({"error": "Tipo de notificación no válido. Debe ser 'emisión' o 'verificación'."},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+    serializer = NotificationSerializer(data=data)
+    
+    if serializer.is_valid():
+        serializer.save(sender=request.user)  # El remitente es el usuario autenticado
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
