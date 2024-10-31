@@ -26,6 +26,7 @@ class Credential(models.Model):
 
 
 class Notification(models.Model):
+    id = models.AutoField(primary_key=True)
     sender = models.ForeignKey(User, related_name='sent_notifications', on_delete=models.CASCADE)   #llave foranea de la tabla usuario de django
     recipient = models.ForeignKey(User, related_name='received_notifications', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)

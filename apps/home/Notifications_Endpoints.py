@@ -6,6 +6,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import NotificationSerializer
+from django.template.loader import render_to_string
 
 
 @login_required
@@ -21,11 +22,23 @@ def get_notifications(request):
             "message": notification.message,
             "timestamp": notification.timestamp,
             "read": notification.read,
-            "notification_type": notification.get_notification_type_display(),
+            "notification_type": notification.notification_type,
         }
         for notification in notifications
     ]
     return JsonResponse({"notifications": notification_data})
+
+@login_required
+
+def get_notifications_items_template(request):
+    notifications = Notification.objects.filter(recipient=request.user).order_by('-timestamp')  # Ajusta según tu lógica
+    notifications_html = []
+
+    for notification in notifications:
+        html = render_to_string('items/notification_item.html', {'notification': notification})
+        notifications_html.append(html)
+
+    return JsonResponse({'notifications': notifications_html})
 
 
 @login_required
