@@ -14,7 +14,7 @@ if (typeof window.ethereum !== 'undefined') {
     alert('No se pudo conectar a la wallet. Asegúrate de que MetaMask esté instalado y habilitado.');
     }
 } else {
-    alert('Por favor, instala MetaMask o otra wallet compatible.');
+    alert('Por favor, instala MetaMask u otra wallet compatible.');
 }
 });
 
