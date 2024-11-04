@@ -17,11 +17,18 @@
               <span class="nav-link-text">Dashboard</span>
             </a>
           </li>
-          
+
+          <li class="nav-item">
+            <a class="nav-link {% if 'verifycredential' in segment %} active {% endif %}" href="/createstudent">
+              <i class="fa-solid fa-school text-blue"></i>
+              <span class="nav-link-text">Students</span>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link {% if 'emit-credentials' in segment %} active {% endif %}" href="/emit-credentials">
               <i class="fa-brands fa-ethereum"></i>
-              <span class="nav-link-text">Emit Credentials</span>
+              <span class="nav-link-text">Credentials</span>
             </a>
           </li>
           <li class="nav-item">
@@ -30,6 +37,7 @@
               <span class="nav-link-text">Verify Credentials</span>
             </a>
           </li>
+
 
           <li class="nav-item">
             <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
