@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         alert('MetaMask not detected. Please install MetaMask to use this feature.');
     }
-    
+
     // Contract details
     const contractABI = CONFIG.CONTRACT_ABI
     const contractAddress = CONFIG.CONTRACT_ADDRESS;
-    const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const contract = new twiweb3.eth.Contract(contractABI, contractAddress);
 
 
     // Handle form submission
@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ credential: credentialData, issuerAddress })
         });
-    
+
         const data = await response.json();
         if (data.status !== 'success') throw new Error('Failed to upload to Pinata');
-        
+
         return data.ipfs_hash;
     }
 
@@ -113,6 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayLoading(show) {
         progress.classList.toggle('d-none', !show);
     }
-    
+
 });
 

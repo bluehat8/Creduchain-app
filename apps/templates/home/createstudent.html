@@ -1,0 +1,100 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Students {% endblock title %}
+
+{% block stylesheets %}
+<style>
+    .credential-hash {
+        display: none;
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+    }
+
+    .credential-hash-hidden {
+        display: inline;
+    }
+
+    .eye-icon {
+        margin-left: 5px;
+        font-size: 1.1em;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% load static %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-gradient-primary text-white">
+            <h3 class="text-white">Students Management</h3>
+        </div>
+        <div class="card-body">
+            <!-- Button to trigger modal -->
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#issueCredentialModal">
+                Create New Student
+            </button>
+
+            <!-- Table for students -->
+            <div class="table-responsive">
+                <table id="credentialsTable" class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Student ID</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Program</th>
+                        <th scope="col">Horary Zone</th>
+                        <th scope="col">Graduation Date</th>
+                    </tr>
+                    <tr>
+                        <th><input type="text" placeholder="Search Name" class="form-control form-control-sm"></th>
+                        <th><input type="text" placeholder="Search Last Name" class="form-control form-control-sm"></th>
+                        <th><input type="text" placeholder="Search Student ID" class="form-control form-control-sm"></th>
+                        <th><input type="text" placeholder="Search City" class="form-control form-control-sm"></th>
+                        <th><input type="text" placeholder="Search Program" class="form-control form-control-sm"></th>
+                        <th><input type="text" placeholder="Horary Zone" class="form-control form-control-sm"></th>
+                        <th><input type="date" class="form-control form-control-sm"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="credentialsTableBody">
+                    {% for student in students %}
+                    <tr>
+                        <td>
+                            <a href="/student-profile.html">
+                                <img src="{% static 'assets/img/theme/profile-cover.jpg' %}" alt="User Icon" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
+                                {{ student.student_name }}
+                            </a>
+                        </td>
+                        <td>
+				{{student.student_last_name}}
+                        </td>
+                        <td>{{ student.student_id }}</td>
+                        <td>{{ student.city }}</td>
+                        <td>{{ student.program }}</td>
+                        <td>{{ student.horary_zone }}</td>
+                        <td>{{ student.graduation_date }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "modals/create-student.html" %}
+
+{% block scripts %}
+
+<!-- {% include "includes/scripts.html" %} -->
+<script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/static/assets/js/config.js"></script>
+<!-- En este script se meneja toda la logica para guardar las credenciales tanto en la base de datos como en la BLOCKCHAIN -->
+
+{% endblock scripts %}
+
+{% endblock %}
