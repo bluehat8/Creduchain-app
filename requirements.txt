@@ -14,3 +14,4 @@ qrcode
 requests
 python-dotenv
 djangorestframework
+psycopg2
