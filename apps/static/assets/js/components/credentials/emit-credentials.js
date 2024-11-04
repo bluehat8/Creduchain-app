@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } finally {
             showProgress(false);
         }
-    );
+    });
 
     async function getAccountAddress() {
         const accounts = await web3.eth.getAccounts();

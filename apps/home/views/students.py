@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from apps.home.utils import get_students, create_student
-from ..forms import StudentForm
+from apps.home.forms import StudentForm
 import json
 
 
