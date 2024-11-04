@@ -21,7 +21,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'), os.environ.get('DATABASE_HOST')]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'), os.environ.get('DATABASE_HOST'), os.environ.get('ALLOW_EASYPANEL_HOST')]
 
 # Application definition
 
