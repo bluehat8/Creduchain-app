@@ -7,6 +7,8 @@ if (typeof window.ethereum !== 'undefined') {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const account = accounts[0];
 
+    localStorage.setItem('wallet', account);
+
     // Mostrar la dirección de la wallet conectada (puedes personalizar esto)
     alert(`Wallet conectada: ${account}`);
     } catch (error) {
