@@ -93,37 +93,6 @@
 <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/static/assets/js/config.js"></script>
-<!-- En este script se meneja toda la logica para guardar las credenciales tanto en la base de datos como en la BLOCKCHAIN -->
-
-<script type="text/javascript">
-    $(document).ready(function() {
-
-
-        // Toggle visibility of credential hash
-        $('.eye-icon').on('click', function() {
-            var hashElement = $(this).closest('td').find('.credential-hash');
-            var hiddenElement = $(this).closest('td').find('.credential-hash-hidden');
-
-            if (hashElement.is(':visible')) {
-                hashElement.hide();
-                hiddenElement.show();
-            } else {
-                hashElement.show();
-                hiddenElement.hide();
-            }
-        });
-
-        // Open a new window with the transaction hash
-        $('.credential-hash').on('click', function() {
-            var transactionHash = $(this).data('transaction');
-            var url = `https://sepolia.scrollscan.com/tx/${transactionHash}`;
-
-            if (confirm('¿Quieres ver los detalles de esta transacción?')) {
-                window.open(url, '_blank');
-            }
-        });
-    });
-</script>
 
 {% endblock scripts %}
 
