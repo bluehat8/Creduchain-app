@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract CredentialRegistry {
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract CredentialRegistry is Ownable {
     struct Credential {
         bytes32 credentialHash; // Hash de la credencial
         string ipfsHash;        // Hash de IPFS
